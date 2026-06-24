@@ -81,14 +81,14 @@ async function loadInstallHelp() {
     ui.brewCommand.value =
       response?.remoteInstallCommand ||
       response?.brewInstallCommand ||
-      "npm install -g https://github.com/your-org/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
+      "npm install -g https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
     ui.nativeCommand.value =
       response?.nativeHostCommand ||
       `arc-sync install-native-host --extension-id ${chrome.runtime.id} --browser arc`;
     return;
   } catch {
     ui.brewCommand.value =
-      "npm install -g https://github.com/your-org/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
+      "npm install -g https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
     ui.nativeCommand.value =
       `arc-sync install-native-host --extension-id ${chrome.runtime.id} --browser arc`;
   }

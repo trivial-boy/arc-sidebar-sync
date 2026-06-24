@@ -9,7 +9,7 @@ import { KNOWN_BROWSER_HOST_DIRS, NATIVE_HOST_NAME } from "./native-host-constan
 
 const DEFAULT_REMOTE_PACKAGE_URL =
   process.env.ARC_SYNC_REMOTE_PACKAGE_URL ||
-  "https://github.com/your-org/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
+  "https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
 
 function parseBrowsers(options = {}) {
   const requested = options.browser || options.browsers || "arc";
@@ -102,7 +102,7 @@ export function getRemoteInstallCommand() {
 }
 
 export function getBrewInstallCommand() {
-  return "brew install your-org/tap/arc-sidebar-sync";
+  return "brew install trivial-boy/tap/arc-sidebar-sync";
 }
 
 export function getLocalDevInstallCommand() {

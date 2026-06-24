@@ -1,7 +1,7 @@
 class ArcSidebarSync < Formula
   desc "Local helper for syncing Arc sidebar data through OSS"
-  homepage "https://github.com/your-org/arc-sidebar-sync"
-  url "https://github.com/your-org/arc-sidebar-sync/archive/refs/tags/v0.1.0.tar.gz"
+  homepage "https://github.com/trivial-boy/arc-sidebar-sync"
+  url "https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "REPLACE_WITH_REAL_TARBALL_SHA256"
   license "MIT"
 

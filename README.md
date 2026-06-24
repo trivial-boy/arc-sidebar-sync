@@ -207,7 +207,7 @@ npm install
 未来发布到你自己的 Homebrew tap 后，社区安装可以变成：
 
 ```bash
-brew install your-org/tap/arc-sidebar-sync
+brew install trivial-boy/tap/arc-sidebar-sync
 ```
 
 对应骨架已经放在：

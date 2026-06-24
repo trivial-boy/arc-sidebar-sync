@@ -24,7 +24,7 @@ homebrew-tap
 发布后用户安装方式会是：
 
 ```bash
-brew install your-org/tap/arc-sidebar-sync
+brew install trivial-boy/tap/arc-sidebar-sync
 ```
 
 ## 2. 发布 release tarball
@@ -41,7 +41,7 @@ git push origin v0.1.0
 ## 3. 计算 sha256
 
 ```bash
-curl -L https://github.com/your-org/arc-sidebar-sync/archive/refs/tags/v0.1.0.tar.gz -o arc-sidebar-sync-v0.1.0.tar.gz
+curl -L https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/tags/v0.1.0.tar.gz -o arc-sidebar-sync-v0.1.0.tar.gz
 shasum -a 256 arc-sidebar-sync-v0.1.0.tar.gz
 ```
 
@@ -62,6 +62,6 @@ Formula/arc-sidebar-sync.rb
 ## 5. 验证安装
 
 ```bash
-brew install your-org/tap/arc-sidebar-sync
+brew install trivial-boy/tap/arc-sidebar-sync
 arc-sync help
 ```
