@@ -79,18 +79,18 @@ async function loadInstallHelp() {
     });
 
     ui.brewCommand.value =
+      response?.bootstrapInstallCommand ||
       response?.remoteInstallCommand ||
       response?.brewInstallCommand ||
-      "npm install -g https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
+      `curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh | bash -s -- --extension-id ${chrome.runtime.id} --browser arc`;
     ui.nativeCommand.value =
-      response?.nativeHostCommand ||
-      `arc-sync install-native-host --extension-id ${chrome.runtime.id} --browser arc`;
+      "自动完成：下载 Helper、安装依赖、注册 Native Host。";
     return;
   } catch {
     ui.brewCommand.value =
-      "npm install -g https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
+      `curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh | bash -s -- --extension-id ${chrome.runtime.id} --browser arc`;
     ui.nativeCommand.value =
-      `arc-sync install-native-host --extension-id ${chrome.runtime.id} --browser arc`;
+      "自动完成：下载 Helper、安装依赖、注册 Native Host。";
   }
 }
 
@@ -152,8 +152,8 @@ function setHelperModalVisible(isVisible) {
 function fillInstallHints() {
   const extensionId = chrome.runtime.id;
   ui.extensionId.value = extensionId;
-  ui.brewCommand.value = "正在获取远程安装命令...";
-  ui.nativeCommand.value = `arc-sync install-native-host --extension-id ${extensionId} --browser arc`;
+  ui.brewCommand.value = "正在获取一键安装命令...";
+  ui.nativeCommand.value = "脚本会自动完成下载、安装和注册。";
 }
 
 function isHelperConnected() {

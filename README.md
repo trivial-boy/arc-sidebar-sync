@@ -195,20 +195,20 @@ extension/
 
 在 Arc 中打开扩展开发者模式后，加载这个目录即可。
 
-### 2. 安装 helper
+### 2. 一键安装 helper
 
-当前这个仓库里，最直接的本地开发安装方式是：
-
-```bash
-cd /Users/gemengying/Documents/Codex/2026-06-23/arc-github
-npm install
-```
-
-未来发布到你自己的 Homebrew tap 后，社区安装可以变成：
+推荐直接执行远程安装脚本：
 
 ```bash
-brew install trivial-boy/tap/arc-sidebar-sync
+curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh | bash -s -- --extension-id YOUR_EXTENSION_ID --browser arc
 ```
+
+这条命令会自动完成：
+
+- 下载最新 helper 源码
+- 安装依赖
+- 在本地创建 `arc-sync` 启动器
+- 注册 Native Messaging host
 
 对应骨架已经放在：
 
@@ -216,7 +216,9 @@ brew install trivial-boy/tap/arc-sidebar-sync
 
 ### 3. 注册 Native Messaging host
 
-扩展安装后会显示当前扩展 ID。拿到它以后执行：
+如果你使用上面的一键脚本，这一步会自动完成。
+
+如果你想手动注册，也可以执行：
 
 ```bash
 arc-sync install-native-host --extension-id YOUR_EXTENSION_ID --browser arc

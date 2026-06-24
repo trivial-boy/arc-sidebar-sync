@@ -10,6 +10,9 @@ import { KNOWN_BROWSER_HOST_DIRS, NATIVE_HOST_NAME } from "./native-host-constan
 const DEFAULT_REMOTE_PACKAGE_URL =
   process.env.ARC_SYNC_REMOTE_PACKAGE_URL ||
   "https://github.com/trivial-boy/arc-sidebar-sync/archive/refs/heads/main.tar.gz";
+const DEFAULT_INSTALL_SCRIPT_URL =
+  process.env.ARC_SYNC_INSTALL_SCRIPT_URL ||
+  "https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh";
 
 function parseBrowsers(options = {}) {
   const requested = options.browser || options.browsers || "arc";
@@ -99,6 +102,11 @@ export function getInstallCommand(extensionId, browser = "arc") {
 
 export function getRemoteInstallCommand() {
   return `npm install -g ${DEFAULT_REMOTE_PACKAGE_URL}`;
+}
+
+export function getBootstrapInstallCommand(extensionId, browser = "arc") {
+  const escapedId = String(extensionId || "").trim();
+  return `curl -fsSL ${DEFAULT_INSTALL_SCRIPT_URL} | bash -s -- --extension-id ${escapedId} --browser ${browser}`;
 }
 
 export function getBrewInstallCommand() {

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import {
+  getBootstrapInstallCommand,
   getRemoteInstallCommand,
   getBrewInstallCommand,
   getInstallCommand,
@@ -203,6 +204,10 @@ async function handleMessage(message) {
     case "installHelp":
       return {
         ok: true,
+        bootstrapInstallCommand: getBootstrapInstallCommand(
+          message.extensionId,
+          message.browser || "arc"
+        ),
         remoteInstallCommand: getRemoteInstallCommand(),
         brewInstallCommand: getBrewInstallCommand(),
         localDevInstallCommand: getLocalDevInstallCommand(),
