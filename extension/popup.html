@@ -33,6 +33,13 @@
           <span class="status-card-label">OSS 配置</span>
           <span id="configStatus" class="badge idle">未配置</span>
         </button>
+        <button id="autoSyncStatusCard" class="status-card status-card-wide" type="button">
+          <span>
+            <span class="status-card-label">自动同步</span>
+            <span id="autoSyncDetail" class="status-card-detail">未开启</span>
+          </span>
+          <span id="autoSyncStatus" class="badge idle">未开启</span>
+        </button>
       </section>
 
       <div id="configModal" class="modal-backdrop" hidden>
@@ -135,6 +142,54 @@
           </div>
           <p id="copyFeedback" class="subtle copy-feedback" hidden>已复制</p>
           <button id="retryButton" class="secondary">重新检测</button>
+        </section>
+      </div>
+
+      <div id="autoSyncModal" class="modal-backdrop" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="autoSyncModalTitle">
+          <div class="row">
+            <strong id="autoSyncModalTitle">自动同步状态</strong>
+            <button id="closeAutoSyncModalButton" class="secondary compact-button" type="button">关闭</button>
+          </div>
+          <div class="status-summary">
+            <span id="autoSyncModalBadge" class="badge idle">未开启</span>
+            <p id="autoSyncModalText" class="subtle">
+              当前未启用后台自动同步，可在 OSS 配置里填写同步间隔后开启。
+            </p>
+          </div>
+          <div class="install-stack">
+            <article class="info-card">
+              <div class="copy-field">
+                <label for="autoSyncLogPath">同步日志</label>
+                <button
+                  id="copyAutoSyncLogPathButton"
+                  class="secondary compact-button"
+                  type="button"
+                >
+                  复制路径
+                </button>
+              </div>
+              <input id="autoSyncLogPath" class="inline-code" readonly />
+            </article>
+
+            <article class="info-card">
+              <div class="copy-field">
+                <label for="autoSyncErrorLogPath">错误日志</label>
+                <button
+                  id="copyAutoSyncErrorLogPathButton"
+                  class="secondary compact-button"
+                  type="button"
+                >
+                  复制路径
+                </button>
+              </div>
+              <input id="autoSyncErrorLogPath" class="inline-code" readonly />
+            </article>
+          </div>
+          <p class="subtle compact">
+            修改自动同步间隔，请回到 `OSS 配置` 中调整保存。
+          </p>
+          <button id="openConfigFromAutoSyncButton" class="secondary">前往 OSS 配置</button>
         </section>
       </div>
 

@@ -166,7 +166,9 @@ function compactLaunchAgentStatus(status) {
   return {
     enabled: Boolean(status?.enabled),
     intervalMinutes: status?.intervalMinutes || null,
-    plistPath: status?.plistPath || null
+    plistPath: status?.plistPath || null,
+    logPath: status?.logPath || null,
+    errorLogPath: status?.errorLogPath || null
   };
 }
 

@@ -7,7 +7,9 @@ let currentSyncState = {
 let copyFeedbackTimer = null;
 let autoSyncState = {
   enabled: false,
-  intervalMinutes: null
+  intervalMinutes: null,
+  logPath: "",
+  errorLogPath: ""
 };
 
 const ui = {
@@ -29,6 +31,18 @@ const ui = {
   autoSyncHint: document.querySelector("#autoSyncHint"),
   configStatusCard: document.querySelector("#configStatusCard"),
   configStatus: document.querySelector("#configStatus"),
+  autoSyncStatusCard: document.querySelector("#autoSyncStatusCard"),
+  autoSyncStatus: document.querySelector("#autoSyncStatus"),
+  autoSyncDetail: document.querySelector("#autoSyncDetail"),
+  autoSyncModal: document.querySelector("#autoSyncModal"),
+  closeAutoSyncModalButton: document.querySelector("#closeAutoSyncModalButton"),
+  autoSyncModalBadge: document.querySelector("#autoSyncModalBadge"),
+  autoSyncModalText: document.querySelector("#autoSyncModalText"),
+  autoSyncLogPath: document.querySelector("#autoSyncLogPath"),
+  autoSyncErrorLogPath: document.querySelector("#autoSyncErrorLogPath"),
+  copyAutoSyncLogPathButton: document.querySelector("#copyAutoSyncLogPathButton"),
+  copyAutoSyncErrorLogPathButton: document.querySelector("#copyAutoSyncErrorLogPathButton"),
+  openConfigFromAutoSyncButton: document.querySelector("#openConfigFromAutoSyncButton"),
   syncButton: document.querySelector("#syncButton"),
   syncStatusText: document.querySelector("#syncStatusText")
 };
@@ -143,14 +157,44 @@ async function loadAutoSyncStatus() {
     const response = await sendNativeMessage({ type: "getAutoSyncStatus" });
     autoSyncState = {
       enabled: Boolean(response?.autoSync?.enabled),
-      intervalMinutes: response?.autoSync?.intervalMinutes || null
+      intervalMinutes: response?.autoSync?.intervalMinutes || null,
+      logPath: response?.autoSync?.logPath || "",
+      errorLogPath: response?.autoSync?.errorLogPath || ""
     };
   } catch {
     autoSyncState = {
       enabled: false,
-      intervalMinutes: null
+      intervalMinutes: null,
+      logPath: "",
+      errorLogPath: ""
     };
   }
+
+  renderAutoSyncState();
+}
+
+function renderAutoSyncState() {
+  const enabled = autoSyncState.enabled && autoSyncState.intervalMinutes;
+  const detail = enabled
+    ? `每 ${autoSyncState.intervalMinutes} 分钟后台同步一次`
+    : "未开启后台定时同步";
+
+  setBadge(ui.autoSyncStatus, enabled ? "good" : "idle", enabled ? "已开启" : "未开启");
+  setBadge(
+    ui.autoSyncModalBadge,
+    enabled ? "good" : "idle",
+    enabled ? "已开启" : "未开启"
+  );
+  ui.autoSyncDetail.textContent = detail;
+  ui.autoSyncModalText.textContent = enabled
+    ? `当前已启用 launchd 自动同步，每 ${autoSyncState.intervalMinutes} 分钟执行一次。`
+    : "当前未启用后台自动同步，可在 OSS 配置里填写同步间隔后开启。";
+  ui.autoSyncLogPath.value =
+    autoSyncState.logPath ||
+    "~/Library/Application Support/arc-sidebar-sync/logs/launchd-sync.log";
+  ui.autoSyncErrorLogPath.value =
+    autoSyncState.errorLogPath ||
+    "~/Library/Application Support/arc-sidebar-sync/logs/launchd-sync.error.log";
 }
 
 async function persistSyncState(status, lastSyncAt) {
@@ -313,8 +357,12 @@ async function saveConfig(event) {
     });
     autoSyncState = {
       enabled: Boolean(autoSyncResponse?.autoSync?.enabled),
-      intervalMinutes: autoSyncResponse?.autoSync?.intervalMinutes || null
+      intervalMinutes: autoSyncResponse?.autoSync?.intervalMinutes || null,
+      logPath: autoSyncResponse?.autoSync?.logPath || autoSyncState.logPath,
+      errorLogPath:
+        autoSyncResponse?.autoSync?.errorLogPath || autoSyncState.errorLogPath
     };
+    renderAutoSyncState();
     applyConfig(response.config);
     setBadge(ui.configStatus, "good", "已配置");
     setConfigModalVisible(false);
@@ -378,6 +426,12 @@ async function init() {
   ui.copyInstallCommandButton.addEventListener("click", () => {
     copyFieldValue("brewCommand");
   });
+  ui.copyAutoSyncLogPathButton.addEventListener("click", () => {
+    copyFieldValue("autoSyncLogPath");
+  });
+  ui.copyAutoSyncErrorLogPathButton.addEventListener("click", () => {
+    copyFieldValue("autoSyncErrorLogPath");
+  });
   ui.helperStatusCard.addEventListener("click", () => {
     setHelperModalVisible(true);
   });
@@ -385,11 +439,21 @@ async function init() {
   ui.configStatusCard.addEventListener("click", () => {
     setConfigModalVisible(true);
   });
+  ui.autoSyncStatusCard.addEventListener("click", () => {
+    ui.autoSyncModal.hidden = false;
+  });
   ui.closeHelperModalButton.addEventListener("click", () => {
     setHelperModalVisible(false);
   });
   ui.closeConfigModalButton.addEventListener("click", () => {
     setConfigModalVisible(false);
+  });
+  ui.closeAutoSyncModalButton.addEventListener("click", () => {
+    ui.autoSyncModal.hidden = true;
+  });
+  ui.openConfigFromAutoSyncButton.addEventListener("click", () => {
+    ui.autoSyncModal.hidden = true;
+    setConfigModalVisible(true);
   });
   ui.helperModal.addEventListener("click", (event) => {
     if (event.target === ui.helperModal) {
@@ -399,6 +463,11 @@ async function init() {
   ui.configModal.addEventListener("click", (event) => {
     if (event.target === ui.configModal) {
       setConfigModalVisible(false);
+    }
+  });
+  ui.autoSyncModal.addEventListener("click", (event) => {
+    if (event.target === ui.autoSyncModal) {
+      ui.autoSyncModal.hidden = true;
     }
   });
   ui.syncButton.addEventListener("click", runSync);
