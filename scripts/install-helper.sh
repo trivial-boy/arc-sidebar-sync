@@ -102,11 +102,11 @@ REMOTE_VERSION="$(read_package_version "$EXTRACTED_DIR/package.json")"
 
 if [[ -n "$CURRENT_PACKAGE_SHA256" && "$CURRENT_PACKAGE_SHA256" == "$REMOTE_PACKAGE_SHA256" && -n "$CURRENT_VERSION" ]]; then
   INSTALL_MODE="reuse"
-  echo "检测到 Helper 已安装，当前版本 v$CURRENT_VERSION，无需重复安装。"
+  echo "检测到 Helper 已安装，当前版本 v${CURRENT_VERSION}，无需重复安装。"
   echo "将仅刷新本地启动器和通信注册。"
 elif [[ -n "$CURRENT_VERSION" && -n "$REMOTE_VERSION" ]]; then
-  echo "检测到已安装版本 v$CURRENT_VERSION。"
-  echo "正在更新到 v$REMOTE_VERSION。"
+  echo "检测到已安装版本 v${CURRENT_VERSION}。"
+  echo "正在更新到 v${REMOTE_VERSION}。"
   INSTALL_MODE="update"
 else
   echo "正在执行首次安装。"
@@ -139,7 +139,7 @@ fi
 
 echo
 echo "Helper 已安装到本机。"
-echo "安装位置：$BIN_DIR/arc-sync"
+echo "安装位置：${BIN_DIR}/arc-sync"
 if [[ "$INSTALL_MODE" == "update" ]]; then
   echo "本次操作：已完成更新。"
 elif [[ "$INSTALL_MODE" == "reuse" ]]; then
