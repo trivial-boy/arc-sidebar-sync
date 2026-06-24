@@ -5,6 +5,10 @@ let currentSyncState = {
   lastSyncAt: null
 };
 let copyFeedbackTimer = null;
+let autoSyncState = {
+  enabled: false,
+  intervalMinutes: null
+};
 
 const ui = {
   helperStatusCard: document.querySelector("#helperStatusCard"),
@@ -22,6 +26,7 @@ const ui = {
   configModal: document.querySelector("#configModal"),
   closeConfigModalButton: document.querySelector("#closeConfigModalButton"),
   configForm: document.querySelector("#configForm"),
+  autoSyncHint: document.querySelector("#autoSyncHint"),
   configStatusCard: document.querySelector("#configStatusCard"),
   configStatus: document.querySelector("#configStatus"),
   syncButton: document.querySelector("#syncButton"),
@@ -66,7 +71,11 @@ function formatTime(value) {
 }
 
 function setSyncStatusLine(status, lastSyncAt) {
-  ui.syncStatusText.textContent = `同步状态：${status} · 上次同步：${formatTime(lastSyncAt)}`;
+  const autoSyncText =
+    autoSyncState.enabled && autoSyncState.intervalMinutes
+      ? ` · 自动同步：每 ${autoSyncState.intervalMinutes} 分钟`
+      : "";
+  ui.syncStatusText.textContent = `同步状态：${status} · 上次同步：${formatTime(lastSyncAt)}${autoSyncText}`;
 }
 
 function showCopyFeedback(message, isError = false) {
@@ -126,6 +135,21 @@ async function loadInstallHelp() {
       `curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh | bash -s -- --extension-id ${chrome.runtime.id} --browser arc`;
     ui.nativeCommand.textContent =
       "自动完成：下载 Helper、安装依赖、注册 Native Host。";
+  }
+}
+
+async function loadAutoSyncStatus() {
+  try {
+    const response = await sendNativeMessage({ type: "getAutoSyncStatus" });
+    autoSyncState = {
+      enabled: Boolean(response?.autoSync?.enabled),
+      intervalMinutes: response?.autoSync?.intervalMinutes || null
+    };
+  } catch {
+    autoSyncState = {
+      enabled: false,
+      intervalMinutes: null
+    };
   }
 }
 
@@ -230,6 +254,8 @@ function applyConfig(config = {}) {
   regionField.value = config.region || inferRegion(config.endpoint) || "oss-cn-hangzhou";
   prefixField.value = config.prefix || "arc-sync";
   arcDirField.value = config["arc-dir"] || "~/Library/Application Support/Arc";
+  const autoSyncField = ui.configForm.elements.namedItem("sync-interval-minutes");
+  autoSyncField.value = config["sync-interval-minutes"] || autoSyncState.intervalMinutes || "";
 
   for (const [key, value] of Object.entries(config)) {
     const field = ui.configForm.elements.namedItem(key);
@@ -275,13 +301,24 @@ async function saveConfig(event) {
   setBadge(ui.configStatus, "pending", "保存中");
 
   try {
+    const nextConfig = formDataToObject(ui.configForm);
     const response = await sendNativeMessage({
       type: "saveConfig",
-      config: formDataToObject(ui.configForm)
+      config: nextConfig
     });
+    const intervalMinutes = Number(nextConfig["sync-interval-minutes"] || 0);
+    const autoSyncResponse = await sendNativeMessage({
+      type: "configureAutoSync",
+      intervalMinutes
+    });
+    autoSyncState = {
+      enabled: Boolean(autoSyncResponse?.autoSync?.enabled),
+      intervalMinutes: autoSyncResponse?.autoSync?.intervalMinutes || null
+    };
     applyConfig(response.config);
     setBadge(ui.configStatus, "good", "已配置");
     setConfigModalVisible(false);
+    setSyncStatusLine(currentSyncState.status, currentSyncState.lastSyncAt);
   } catch (error) {
     setBadge(ui.configStatus, "warn", "异常");
     setSyncStatusLine("配置异常", currentSyncState.lastSyncAt);
@@ -315,6 +352,7 @@ async function runSync() {
 async function init() {
   fillInstallHints();
   await loadInstallHelp();
+  await loadAutoSyncStatus();
   setHelperModalVisible(false);
   setConfigModalVisible(false);
 

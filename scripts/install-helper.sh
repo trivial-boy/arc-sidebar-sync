@@ -137,6 +137,20 @@ else
   exit 1
 fi
 
+CONFIG_FILE="$INSTALL_ROOT/config.json"
+AUTO_SYNC_MINUTES=""
+if [[ -f "$CONFIG_FILE" ]]; then
+  AUTO_SYNC_MINUTES="$(node -e 'const fs=require("fs"); const file=process.argv[1]; const data=JSON.parse(fs.readFileSync(file,"utf8")); process.stdout.write(String(data["sync-interval-minutes"] || ""));' "$CONFIG_FILE" 2>/dev/null || true)"
+fi
+
+if [[ -n "$AUTO_SYNC_MINUTES" && "$AUTO_SYNC_MINUTES" != "0" ]]; then
+  echo "检测到已配置自动同步，正在注册后台任务..."
+  "$BIN_DIR/arc-sync" install-launch-agent \
+    --sync-interval-minutes "$AUTO_SYNC_MINUTES" \
+    --command-path "$BIN_DIR/arc-sync" >/dev/null
+  echo "自动同步已启用：每 ${AUTO_SYNC_MINUTES} 分钟。"
+fi
+
 echo
 echo "Helper 已安装到本机。"
 echo "安装位置：${BIN_DIR}/arc-sync"

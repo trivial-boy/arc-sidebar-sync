@@ -61,6 +61,19 @@
               Access Key Secret
               <input name="secret-access-key" type="password" placeholder="留空则保留原有密钥" />
             </label>
+            <label>
+              自动同步间隔（分钟）
+              <input
+                name="sync-interval-minutes"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0 表示关闭自动同步"
+              />
+            </label>
+            <p id="autoSyncHint" class="subtle compact">
+              填写大于 0 的值后，会自动启用 macOS `launchd` 后台定时同步。
+            </p>
             <input name="backend" type="hidden" value="s3" />
             <input name="machine-id" type="hidden" />
             <input name="region" type="hidden" />

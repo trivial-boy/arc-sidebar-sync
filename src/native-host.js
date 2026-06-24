@@ -10,6 +10,11 @@ import {
   installNativeHost
 } from "./native-install.js";
 import {
+  getLaunchAgentStatus,
+  installLaunchAgent,
+  uninstallLaunchAgent
+} from "./launchd.js";
+import {
   getAppSupportDir,
   loadHelperConfig,
   normalizeIncomingConfig,
@@ -157,6 +162,14 @@ function compactSyncResult(result) {
   };
 }
 
+function compactLaunchAgentStatus(status) {
+  return {
+    enabled: Boolean(status?.enabled),
+    intervalMinutes: status?.intervalMinutes || null,
+    plistPath: status?.plistPath || null
+  };
+}
+
 async function handleMessage(message) {
   const storedConfig = await loadHelperConfig();
 
@@ -178,6 +191,33 @@ async function handleMessage(message) {
       return {
         ok: true,
         config: sanitizeHelperConfig(saved)
+      };
+    }
+    case "getAutoSyncStatus": {
+      const status = await getLaunchAgentStatus();
+      return {
+        ok: true,
+        autoSync: compactLaunchAgentStatus(status)
+      };
+    }
+    case "configureAutoSync": {
+      const intervalMinutes = Number(message.intervalMinutes || 0);
+
+      if (intervalMinutes > 0) {
+        const result = await installLaunchAgent({
+          intervalMinutes,
+          commandPath: path.join(getAppSupportDir(), "bin", "arc-sync")
+        });
+        return {
+          ok: true,
+          autoSync: compactLaunchAgentStatus(result)
+        };
+      }
+
+      const result = await uninstallLaunchAgent();
+      return {
+        ok: true,
+        autoSync: compactLaunchAgentStatus(result)
       };
     }
     case "status": {

@@ -43,6 +43,8 @@ Usage:
   arc-sync sync --backend file --machine-id macbook-a --store-dir ./work/object-store
   arc-sync config --save --backend s3 --machine-id macbook-a --bucket your-bucket --endpoint https://oss-cn-hangzhou.aliyuncs.com
   arc-sync install-native-host --extension-id your-extension-id --browser arc
+  arc-sync install-launch-agent --sync-interval-minutes 10 --command-path ~/Library/Application\\ Support/arc-sidebar-sync/bin/arc-sync
+  arc-sync launch-agent-status
 
 Required backend flags:
   S3/OSS:
@@ -67,5 +69,9 @@ Optional client flags:
 Native host install flags:
   --extension-id abcdefghijklmnopabcdefghijklmnop
   --browser arc|chrome|chromium|brave|edge
+
+Launch agent flags:
+  --sync-interval-minutes 10
+  --command-path ~/Library/Application\ Support/arc-sidebar-sync/bin/arc-sync
 `);
 }

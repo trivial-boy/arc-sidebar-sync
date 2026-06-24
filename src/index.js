@@ -2,6 +2,11 @@
 
 import { installNativeHost } from "./native-install.js";
 import { runNativeHost } from "./native-host.js";
+import {
+  getLaunchAgentStatus,
+  installLaunchAgent,
+  uninstallLaunchAgent
+} from "./launchd.js";
 import { runSyncCommand, runStatusCommand } from "./sync-client.js";
 import { printHelp, parseArgs } from "./lib/cli.js";
 import { loadHelperConfig, normalizeIncomingConfig, saveHelperConfig } from "./helper-config.js";
@@ -33,6 +38,24 @@ async function main() {
       return;
     case "install-native-host":
       console.log(JSON.stringify(await installNativeHost(options), null, 2));
+      return;
+    case "install-launch-agent":
+      console.log(
+        JSON.stringify(
+          await installLaunchAgent({
+            intervalMinutes: options["sync-interval-minutes"],
+            commandPath: options["command-path"]
+          }),
+          null,
+          2
+        )
+      );
+      return;
+    case "uninstall-launch-agent":
+      console.log(JSON.stringify(await uninstallLaunchAgent(), null, 2));
+      return;
+    case "launch-agent-status":
+      console.log(JSON.stringify(await getLaunchAgentStatus(), null, 2));
       return;
     case "native-host":
       routeConsoleToStderr();
