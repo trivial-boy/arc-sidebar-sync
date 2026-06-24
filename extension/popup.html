@@ -88,35 +88,37 @@
               <li>完成后点击下方“重新检测”。</li>
             </ol>
           </div>
-          <div class="install-box">
-            <div class="copy-field">
-              <label for="extensionId">扩展 ID</label>
-              <button
-                id="copyExtensionIdButton"
-                class="secondary compact-button"
-                type="button"
-                data-copy-target="extensionId"
-              >
-                复制
-              </button>
-            </div>
-            <input id="extensionId" readonly />
+          <div class="install-stack">
+            <article class="info-card">
+              <div class="copy-field">
+                <label for="extensionId">扩展 ID</label>
+                <button
+                  id="copyExtensionIdButton"
+                  class="secondary compact-button"
+                  type="button"
+                  data-copy-target="extensionId"
+                >
+                  复制
+                </button>
+              </div>
+              <input id="extensionId" class="inline-code" readonly />
+            </article>
 
-            <div class="copy-field">
-              <label for="brewCommand">一键安装并连接</label>
-              <button
-                id="copyInstallCommandButton"
-                class="secondary compact-button"
-                type="button"
-                data-copy-target="brewCommand"
-              >
-                复制
-              </button>
-            </div>
-            <textarea id="brewCommand" rows="2" readonly></textarea>
-
-            <label for="nativeCommand">执行内容说明</label>
-            <textarea id="nativeCommand" rows="2" readonly></textarea>
+            <article class="command-card">
+              <div class="copy-field">
+                <label for="brewCommand">一键安装并连接</label>
+                <button
+                  id="copyInstallCommandButton"
+                  class="secondary compact-button"
+                  type="button"
+                  data-copy-target="brewCommand"
+                >
+                  复制命令
+                </button>
+              </div>
+              <textarea id="brewCommand" class="command-box" rows="3" readonly></textarea>
+              <p id="nativeCommand" class="command-note">自动完成：下载 Helper、安装依赖、注册 Native Host。</p>
+            </article>
           </div>
           <p id="copyFeedback" class="subtle copy-feedback" hidden>已复制</p>
           <button id="retryButton" class="secondary">重新检测</button>

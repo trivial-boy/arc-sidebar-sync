@@ -118,13 +118,13 @@ async function loadInstallHelp() {
       response?.remoteInstallCommand ||
       response?.brewInstallCommand ||
       `curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh | bash -s -- --extension-id ${chrome.runtime.id} --browser arc`;
-    ui.nativeCommand.value =
+    ui.nativeCommand.textContent =
       "自动完成：下载 Helper、安装依赖、注册 Native Host。";
     return;
   } catch {
     ui.brewCommand.value =
       `curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh | bash -s -- --extension-id ${chrome.runtime.id} --browser arc`;
-    ui.nativeCommand.value =
+    ui.nativeCommand.textContent =
       "自动完成：下载 Helper、安装依赖、注册 Native Host。";
   }
 }
@@ -188,7 +188,7 @@ function fillInstallHints() {
   const extensionId = chrome.runtime.id;
   ui.extensionId.value = extensionId;
   ui.brewCommand.value = "正在获取一键安装命令...";
-  ui.nativeCommand.value = "脚本会自动完成下载、安装和注册。";
+  ui.nativeCommand.textContent = "脚本会自动完成下载、安装和注册。";
 }
 
 function isHelperConnected() {

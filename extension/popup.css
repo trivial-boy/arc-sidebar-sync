@@ -206,6 +206,20 @@ form,
   gap: 10px;
 }
 
+.install-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.info-card,
+.command-card {
+  padding: 12px;
+  border: 1px solid rgba(84, 66, 46, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
 .copy-field {
   display: flex;
   align-items: center;
@@ -243,6 +257,27 @@ textarea {
 
 textarea {
   resize: vertical;
+}
+
+.inline-code,
+.command-box {
+  font-family: "SF Mono", "Menlo", "Monaco", monospace;
+}
+
+.inline-code {
+  font-size: 14px;
+}
+
+.command-box {
+  min-height: 96px;
+  line-height: 1.5;
+}
+
+.command-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 13px;
 }
 
 button {

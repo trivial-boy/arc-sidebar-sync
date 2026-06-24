@@ -12,6 +12,7 @@
   "scripts": {
     "start": "node ./src/index.js",
     "client": "node ./src/index.js sync",
+    "build:extension": "bash ./scripts/build-extension-artifact.sh",
     "test:smoke": "node ./scripts/smoke-test.js",
     "test:native-host": "node ./scripts/native-host-smoke-test.js"
   },

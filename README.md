@@ -195,6 +195,24 @@ extension/
 
 在 Arc 中打开扩展开发者模式后，加载这个目录即可。
 
+如果你不想手动打包源码，也可以直接从 GitHub Actions 的构建产物里下载扩展 zip：
+
+- 打开仓库的 Actions 页面
+- 进入 `Build Extension Artifact`
+- 下载产物 `arc-sidebar-sync-extension`
+
+本地也可以直接执行：
+
+```bash
+npm run build:extension
+```
+
+生成文件会放在：
+
+```text
+outputs/arc-sidebar-sync-extension-v0.1.0.zip
+```
+
 ### 2. 一键安装 helper
 
 推荐直接执行远程安装脚本：
