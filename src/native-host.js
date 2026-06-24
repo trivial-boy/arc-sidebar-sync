@@ -3,6 +3,7 @@ import path from "node:path";
 
 import {
   getBootstrapInstallCommand,
+  getExtensionDownloadCommand,
   getRemoteInstallCommand,
   getBrewInstallCommand,
   getInstallCommand,
@@ -250,6 +251,7 @@ async function handleMessage(message) {
           message.extensionId,
           message.browser || "arc"
         ),
+        extensionDownloadCommand: getExtensionDownloadCommand(),
         remoteInstallCommand: getRemoteInstallCommand(),
         brewInstallCommand: getBrewInstallCommand(),
         localDevInstallCommand: getLocalDevInstallCommand(),

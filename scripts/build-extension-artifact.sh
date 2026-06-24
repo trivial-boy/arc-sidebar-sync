@@ -3,8 +3,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 EXTENSION_DIR="$ROOT_DIR/extension"
-OUTPUT_DIR="$ROOT_DIR/outputs"
-STAGE_DIR="$OUTPUT_DIR/extension-package"
+OUTPUT_DIR="$ROOT_DIR/outputs/releases"
+STAGE_DIR="$ROOT_DIR/outputs/extension-package"
 PACKAGE_JSON="$ROOT_DIR/package.json"
 
 VERSION="$(node -e 'const fs=require("fs"); const pkg=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); process.stdout.write(pkg.version || "0.0.0");' "$PACKAGE_JSON")"

@@ -13,6 +13,9 @@ const DEFAULT_REMOTE_PACKAGE_URL =
 const DEFAULT_INSTALL_SCRIPT_URL =
   process.env.ARC_SYNC_INSTALL_SCRIPT_URL ||
   "https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/install-helper.sh";
+const DEFAULT_EXTENSION_DOWNLOAD_SCRIPT_URL =
+  process.env.ARC_SYNC_EXTENSION_DOWNLOAD_SCRIPT_URL ||
+  "https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/download-extension.sh";
 
 function parseBrowsers(options = {}) {
   const requested = options.browser || options.browsers || "arc";
@@ -107,6 +110,10 @@ export function getRemoteInstallCommand() {
 export function getBootstrapInstallCommand(extensionId, browser = "arc") {
   const escapedId = String(extensionId || "").trim();
   return `curl -fsSL ${DEFAULT_INSTALL_SCRIPT_URL} | bash -s -- --extension-id ${escapedId} --browser ${browser}`;
+}
+
+export function getExtensionDownloadCommand() {
+  return `curl -fsSL ${DEFAULT_EXTENSION_DOWNLOAD_SCRIPT_URL} | bash`;
 }
 
 export function getBrewInstallCommand() {

@@ -197,9 +197,14 @@ extension/
 
 如果你不想手动打包源码，也可以直接从 GitHub Actions 的构建产物里下载扩展 zip：
 
-- 打开仓库的 Actions 页面
-- 进入 `Build Extension Artifact`
-- 下载产物 `arc-sidebar-sync-extension`
+- 直接下载仓库内已打好的扩展包：
+  [`outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip`](/Users/gemengying/Documents/Codex/2026-06-23/arc-github/outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip)
+
+也可以直接执行一键下载命令：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/scripts/download-extension.sh | bash
+```
 
 本地也可以直接执行：
 
@@ -210,7 +215,7 @@ npm run build:extension
 生成文件会放在：
 
 ```text
-outputs/arc-sidebar-sync-extension-v0.1.0.zip
+outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip
 ```
 
 ### 2. 一键安装 helper
