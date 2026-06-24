@@ -4,6 +4,7 @@ let currentSyncState = {
   status: "空闲",
   lastSyncAt: null
 };
+let copyFeedbackTimer = null;
 
 const ui = {
   helperStatusCard: document.querySelector("#helperStatusCard"),
@@ -14,6 +15,9 @@ const ui = {
   brewCommand: document.querySelector("#brewCommand"),
   nativeCommand: document.querySelector("#nativeCommand"),
   extensionId: document.querySelector("#extensionId"),
+  copyExtensionIdButton: document.querySelector("#copyExtensionIdButton"),
+  copyInstallCommandButton: document.querySelector("#copyInstallCommandButton"),
+  copyFeedback: document.querySelector("#copyFeedback"),
   retryButton: document.querySelector("#retryButton"),
   configModal: document.querySelector("#configModal"),
   closeConfigModalButton: document.querySelector("#closeConfigModalButton"),
@@ -63,6 +67,37 @@ function formatTime(value) {
 
 function setSyncStatusLine(status, lastSyncAt) {
   ui.syncStatusText.textContent = `同步状态：${status} · 上次同步：${formatTime(lastSyncAt)}`;
+}
+
+function showCopyFeedback(message, isError = false) {
+  ui.copyFeedback.hidden = false;
+  ui.copyFeedback.textContent = message;
+  ui.copyFeedback.style.color = isError ? "var(--warn)" : "var(--accent)";
+
+  if (copyFeedbackTimer) {
+    window.clearTimeout(copyFeedbackTimer);
+  }
+
+  copyFeedbackTimer = window.setTimeout(() => {
+    ui.copyFeedback.hidden = true;
+  }, 1800);
+}
+
+async function copyFieldValue(targetId) {
+  const field = ui[targetId];
+  const value = field?.value?.trim();
+
+  if (!value) {
+    showCopyFeedback("暂无可复制内容", true);
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(value);
+    showCopyFeedback("已复制");
+  } catch {
+    showCopyFeedback("复制失败，请手动复制", true);
+  }
 }
 
 async function loadPersistedSyncState() {
@@ -299,6 +334,12 @@ async function init() {
   }
 
   ui.retryButton.addEventListener("click", detectHelper);
+  ui.copyExtensionIdButton.addEventListener("click", () => {
+    copyFieldValue("extensionId");
+  });
+  ui.copyInstallCommandButton.addEventListener("click", () => {
+    copyFieldValue("brewCommand");
+  });
   ui.helperStatusCard.addEventListener("click", () => {
     setHelperModalVisible(true);
   });
