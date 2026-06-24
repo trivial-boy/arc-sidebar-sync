@@ -1,0 +1,281 @@
+:root {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --panel: rgba(255, 251, 245, 0.92);
+  --ink: #1c1917;
+  --muted: #6b6257;
+  --line: rgba(84, 66, 46, 0.16);
+  --accent: #1f6f5f;
+  --accent-soft: #d9ede7;
+  --warn: #b45309;
+  --radius: 18px;
+  --shadow: 0 18px 40px rgba(48, 35, 24, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-width: 420px;
+  font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(31, 111, 95, 0.18), transparent 36%),
+    linear-gradient(180deg, #f8f3eb 0%, var(--bg) 100%);
+  color: var(--ink);
+}
+
+.app {
+  padding: 18px;
+}
+
+.hero {
+  margin-bottom: 14px;
+}
+
+.guide-banner {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(31, 111, 95, 0.18);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(31, 111, 95, 0.14), rgba(255, 251, 245, 0.92));
+  color: #214d43;
+  line-height: 1.5;
+}
+
+.guide-banner strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.guide-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.guide-list li + li {
+  margin-top: 4px;
+}
+
+.compact-list {
+  margin-top: 6px;
+}
+
+.status-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 251, 245, 0.92);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.status-card-label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.helper-tip {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(31, 111, 95, 0.16);
+  border-radius: 16px;
+  background: rgba(217, 237, 231, 0.5);
+  color: #214d43;
+}
+
+.helper-tip strong {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(28, 25, 23, 0.22);
+  backdrop-filter: blur(10px);
+  z-index: 20;
+}
+
+.modal-card {
+  width: min(100%, 420px);
+  max-height: min(calc(100vh - 32px), 620px);
+  background: rgba(255, 251, 245, 0.98);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hero h1 {
+  margin: 6px 0 8px;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.subtle {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.compact {
+  margin-bottom: 12px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.pending,
+.badge.idle {
+  background: #ece7df;
+  color: #5a5147;
+}
+
+.badge.good {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.badge.warn {
+  background: #fbe7cc;
+  color: var(--warn);
+}
+
+form,
+.install-box {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+input,
+textarea,
+button,
+pre {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--ink);
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button.secondary {
+  background: #e8e1d7;
+  color: #3f352b;
+}
+
+.compact-button {
+  padding: 7px 12px;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.sync-hero {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.sync-primary {
+  min-width: 220px;
+  min-height: 68px;
+  font-size: 18px;
+  border-radius: 22px;
+}
+
+.sync-status-line {
+  margin: 14px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 600;
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Arc 侧边栏同步</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero">
+        <p class="eyebrow">Arc 侧边栏同步</p>
+        <h1>先完成 Helper 初始化，再一键同步。</h1>
+        <p class="subtle">
+          扩展负责界面与触发，本地 Helper 负责读取 Arc 数据，再把快照同步到你的 OSS。
+        </p>
+      </section>
+
+      <section class="guide-banner">
+        <strong>首次使用请先完成下面两步：</strong>
+        <ol class="guide-list">
+          <li>点击上方“Helper 连接”，按提示执行安装与注册命令。</li>
+          <li>点击上方“OSS 配置”，填写 Bucket、Endpoint 和密钥。</li>
+        </ol>
+      </section>
+
+      <section class="status-strip">
+        <button id="helperStatusCard" class="status-card" type="button">
+          <span class="status-card-label">Helper 连接</span>
+          <span id="helperStatus" class="badge pending">检测中</span>
+        </button>
+        <button id="configStatusCard" class="status-card" type="button">
+          <span class="status-card-label">OSS 配置</span>
+          <span id="configStatus" class="badge idle">未配置</span>
+        </button>
+      </section>
+
+      <div id="configModal" class="modal-backdrop" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="configModalTitle">
+          <div class="row">
+            <strong id="configModalTitle">配置 OSS</strong>
+            <button id="closeConfigModalButton" class="secondary compact-button" type="button">关闭</button>
+          </div>
+          <p class="subtle compact">
+            这里只显示 OSS 必填项，其它同步参数使用默认值。
+          </p>
+          <form id="configForm">
+            <label>
+              Bucket
+              <input name="bucket" placeholder="your-bucket" required />
+            </label>
+            <label>
+              Endpoint
+              <input name="endpoint" placeholder="oss-cn-beijing.aliyuncs.com" required />
+            </label>
+            <label>
+              Access Key ID
+              <input name="access-key-id" required />
+            </label>
+            <label>
+              Access Key Secret
+              <input name="secret-access-key" type="password" placeholder="留空则保留原有密钥" />
+            </label>
+            <input name="backend" type="hidden" value="s3" />
+            <input name="machine-id" type="hidden" />
+            <input name="region" type="hidden" />
+            <input name="prefix" type="hidden" value="arc-sync" />
+            <input name="arc-dir" type="hidden" value="~/Library/Application Support/Arc" />
+            <button type="submit">保存配置</button>
+          </form>
+        </section>
+      </div>
+
+      <div id="helperModal" class="modal-backdrop" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helperModalTitle">
+          <div class="row">
+            <strong id="helperModalTitle">连接 Helper</strong>
+            <button id="closeHelperModalButton" class="secondary compact-button" type="button">关闭</button>
+          </div>
+          <p id="helperMessage" class="subtle compact">
+            扩展打开时会自动尝试连接本地 Helper。
+          </p>
+          <div class="helper-tip">
+            <strong>初始化步骤</strong>
+            <ol class="guide-list compact-list">
+              <li>先在本地项目目录执行依赖安装命令。</li>
+              <li>再执行 Native Host 注册命令。</li>
+              <li>完成后点击下方“重新检测”。</li>
+            </ol>
+          </div>
+          <div class="install-box">
+            <label for="extensionId">扩展 ID</label>
+            <input id="extensionId" readonly />
+
+            <label for="brewCommand">远程安装命令</label>
+            <textarea id="brewCommand" rows="2" readonly></textarea>
+
+            <label for="nativeCommand">注册命令</label>
+            <textarea id="nativeCommand" rows="2" readonly></textarea>
+          </div>
+          <button id="retryButton" class="secondary">重新检测</button>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="sync-hero">
+          <button id="syncButton" class="sync-primary">同步并上传</button>
+        </div>
+        <p id="syncStatusText" class="sync-status-line">同步状态：空闲 · 上次同步：从未</p>
+      </section>
+    </main>
+
+    <script type="module" src="./popup.js"></script>
+  </body>
+</html>
