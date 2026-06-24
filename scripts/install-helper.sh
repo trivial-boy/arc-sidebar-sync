@@ -76,7 +76,12 @@ EOF
 chmod +x "$BIN_DIR/arc-sync"
 
 echo "[arc-sync] registering native host..."
-"$BIN_DIR/arc-sync" install-native-host --extension-id "$EXTENSION_ID" --browser "$BROWSER"
+if REGISTER_OUTPUT="$("$BIN_DIR/arc-sync" install-native-host --extension-id "$EXTENSION_ID" --browser "$BROWSER" 2>&1)"; then
+  echo "Helper 通信注册成功。"
+else
+  echo "$REGISTER_OUTPUT" >&2
+  exit 1
+fi
 
 echo
 echo "Helper 已安装到本机。"
