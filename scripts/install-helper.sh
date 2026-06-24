@@ -79,6 +79,6 @@ echo "[arc-sync] registering native host..."
 "$BIN_DIR/arc-sync" install-native-host --extension-id "$EXTENSION_ID" --browser "$BROWSER"
 
 echo
-echo "[arc-sync] helper installed successfully."
-echo "[arc-sync] binary: $BIN_DIR/arc-sync"
-echo "[arc-sync] you can now reopen Arc or click '重新检测'."
+echo "Helper 已安装到本机。"
+echo "安装位置：$BIN_DIR/arc-sync"
+echo "可返回 Arc 点击“重新检测”。"
