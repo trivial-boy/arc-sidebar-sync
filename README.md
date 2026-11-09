@@ -195,10 +195,10 @@ extension/
 
 在 Arc 中打开扩展开发者模式后，加载这个目录即可。
 
-如果你不想手动打包源码，也可以直接从 GitHub Actions 的构建产物里下载扩展 zip：
+如果你不想手动打包源码，也可以直接下载仓库内已打好的扩展 zip：
 
 - 直接下载仓库内已打好的扩展包：
-  [`outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip`](/Users/gemengying/Documents/Codex/2026-06-23/arc-github/outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip)
+  [`outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip`](outputs/releases/arc-sidebar-sync-extension-v0.1.0.zip)
 
 也可以直接执行一键下载命令：
 
@@ -235,7 +235,7 @@ curl -fsSL https://raw.githubusercontent.com/trivial-boy/arc-sidebar-sync/main/s
 
 对应骨架已经放在：
 
-[`packaging/homebrew/arc-sidebar-sync.rb`](/Users/gemengying/Documents/Codex/2026-06-23/arc-github/packaging/homebrew/arc-sidebar-sync.rb)
+[`packaging/homebrew/arc-sidebar-sync.rb`](packaging/homebrew/arc-sidebar-sync.rb)
 
 ### 3. 注册 Native Messaging host
 
